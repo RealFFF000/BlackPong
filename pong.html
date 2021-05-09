@@ -1,12 +1,16 @@
 <html>
     <head>
         <title>
-        Bonk
+        BlackPong
         </title>
         <link rel="icon" href="grin.ico" type="image/gif" sizes="256x256">
         <meta>
         <style>
-
+            /*
+            #rekord{
+                
+                position:fixed;
+            }*/
             #guzik{
                     
                     background-color: #4CAF50; 
@@ -37,7 +41,9 @@
     <body>
         <br>
         <center>
-            <a id="punkty" style="font-size: 30px">Pong</a><br>
+            <a style="font-size: 40px">BlackPong</a><br>
+            <a style="font-size: 30px">Wynik:<a id="punkty" style="font-size: 30px">0</a></a><br>
+            <a id="rekord" style="font-size: 30px"></a><br>
             <canvas id="ponk" width="400" height="300" style="border-style:solid;border-radius: 10px;"></canvas><br><br>
             
             <a id="koniec gry" style="font-size: 30px"></a><br><br>
@@ -55,10 +61,14 @@
                     var belkaY = 280;
                     var szczalkaP = 0;
                     var szczalkaL = 0;
-                    
+                    var rekord = localStorage.getItem('punkty');
                     var c = document.getElementById("ponk");
                     var ctx = c.getContext("2d");
-
+                    if(rekord == null) {
+                        rekord = 0;
+                    }
+                    document.getElementById("rekord").innerHTML = "Rekord:<a id='rekordliczba'></a>";
+                    document.getElementById("rekordliczba").innerHTML = rekord;
                     //----------------------------------------------------------------
                     document.addEventListener("keydown", function(event) {
                     
@@ -112,12 +122,23 @@
 
                     function kółko(x,w) {
                         if(x > 390){y *= -1}
-                        if(x < 10){y *= -1}
+                        if(x < 10){y *= -1}Przegrałeś :c
                         if(w > 290){
-
+                            
                             document.getElementById("koniec gry").innerHTML = "Przegrałeś :c<br><br><button id='guzik' onclick='location.reload();'>Nowa gra</button>";
                             porazka=1;
+                            
+                            
+                            if(punkty>rekord) {
+                                localStorage.setItem('punkty', punkty);
+                                rekord = localStorage.getItem('punkty');
+                                document.getElementById("koniec gry").innerHTML = "Nowy rekord!<br><br><button id='guzik' onclick='location.reload();'>Nowa gra</button>";
+
+                            }
+                            
+                            document.getElementById("rekordliczba").innerHTML = rekord;
                             setTimeout(function() {
+                                
                                 document.addEventListener("keydown", function(event) {
                                 location.reload();
 
