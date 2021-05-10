@@ -1,0 +1,233 @@
+<html>
+    <head>
+        <title>
+        BlackPong
+        </title>
+        <link rel="icon" href="grin.ico" type="image/gif" sizes="256x256">
+        <meta>
+        <style>
+            /*
+            #rekord{
+                
+                position:fixed;
+            }*/
+            #Skala{
+                background-color: #ddd;
+            }
+            #guzik{
+                    
+                    background-color: #4CAF50; 
+                    border: none;
+                    color: white;
+                    padding: 16px 32px;
+                    text-align: center;
+                    text-decoration: none;
+                    display: inline-block;
+                    font-size: 22px;
+                    margin: 4px 2px;
+                    transition-duration: 0.4s;
+                    cursor: pointer;
+                    border-radius: 10px;
+            }
+            #guzik {
+                    background-color: white; 
+                    color: black; 
+                    border: 2px solid black;
+            }
+            #guzik:hover {
+                    background-color:black;
+                    color: white;
+            }
+            #skalowanie{
+                position: fixed;
+                top: 10;
+                right: 10;
+                border-style:solid;
+                border-radius: 10px;
+                text-align:center;
+            }
+            #wyniki{
+                position: fixed;
+                top: 10;
+                left: 10;
+                border-style:solid;
+                border-radius: 10px;
+                text-align:center;
+                padding: 8px 8px;
+            }
+
+
+
+        </style>
+    </head>
+    <body>
+
+        <form id="skalowanie">
+            <label for="skala"style="">Game screen size<br></label>
+            <input  type="range" id="Skala" style="color:black;" name="Skala" min="5" max="30"><br>
+            <input id="guzik" style="font-size: 19px;" type="submit" onclick="skalaf();" value="Submit">
+        </form>
+        <div id="wyniki">
+            <a style="font-size: 30px">Score:<a id="punkty" style="font-size: 30px">0</a></a><br>
+            <a id="rekord" style="font-size: 30px"></a><br>
+        </div>
+        <center>
+            <a style="font-size: 40px"onclick="window.open('https://github.com/Rafau33/BlackPong')">BlackPong</a><br><br>
+
+            <canvas id="ponk" width="400" height="300" style="border-style:solid;border-radius: 10px;"></canvas><br><br>
+            
+            <a id="koniec gry" style="font-size: 30px"></a><br><br>
+            
+            
+        </center>
+
+        <script>    
+                    
+                    var skala = (localStorage.getItem('skala')*0.1);
+                    if(skala == null){skala=10;}
+                    document.getElementById("Skala").value = skala*10;
+                    var porazka=0;
+                    var punkty=0;                    
+                    var y = ((1.8 - (0.8*Math.random()))*skala);
+                    
+                    var x=((220*skala) - Math.floor(Math.random() * (100*skala) ));
+                    var z= ((1.7 - (0.7*Math.random()))*skala) ;
+                    var w= ((40*skala) -Math.floor(Math.random() * (10*skala) ));
+                    var belkaX = 200*skala;
+                    var belkaY = 280*skala;
+                    var szczalkaP = 0;
+                    var szczalkaL = 0;
+                    var rekord = localStorage.getItem('punkty');
+                    var c = document.getElementById("ponk");
+                    var ctx = c.getContext("2d");
+                    
+                    if(rekord == null) {
+                        rekord = 0;
+                    }
+                    c.width = 400*skala;
+                    c.height = 300*skala;
+                    document.getElementById("rekord").innerHTML = "Best Score:<a id='rekordliczba'></a>";
+                    document.getElementById("rekordliczba").innerHTML = rekord;
+                    //----------------------------------------------------------------
+                    document.addEventListener("keydown", function(event) {
+                    
+                        
+                        if (event.which === 39) {
+                            
+                            szczalkaP = 1;
+                            szczalkaL = 0;
+                        }
+                        else if (event.which === 37) {
+                            
+                            szczalkaP = 0;
+                            szczalkaL = 1;
+                        }
+                        else {
+                            szczalkaP = 0;
+                            szczalkaL = 0;
+                        }
+                        
+                    });
+
+                    document.addEventListener("keyup", function(event) {
+                    
+                        
+                    if (event.which === 39) {
+                        
+                        szczalkaP = 0;
+                    }
+                    else if (event.which === 37) {
+                        
+                        szczalkaL = 0;
+                    }
+
+                    
+                });
+                    //----------------------------------------------------------------
+                    function szczalki(){
+                        if(szczalkaP == 1){
+                            if(belkaX<(360*skala)) {
+                                    belkaX=belkaX+(1.5*skala);
+                            }
+                        }
+                        if(szczalkaL == 1){
+                            if(belkaX>(40*skala)) {
+                                    belkaX=belkaX-(1.5*skala);
+                            }
+                        }
+                    }
+                
+                    function skalaf(){
+                        var scal = document.getElementById("Skala").value;
+                        localStorage.setItem('skala', scal);
+                        location.reload();
+                    }
+                    
+
+                    function kolko(x,w) {
+                        if(x > (390*skala)){y *= -1}
+                        if(x < (10*skala)){y *= -1}
+                        if(w > (290*skala)){
+                            
+                            document.getElementById("koniec gry").innerHTML = "You lose<br><br><button id='guzik' onclick='location.reload();'>New game</button>";
+                            porazka=1;
+/*
+                            if(punkty>rekord*0.7) {
+                                document.getElementById("koniec gry").innerHTML = "Almost record<br><br><button id='guzik' onclick='location.reload();'>New game</button>";
+
+                            }
+*/                            
+                            if(punkty>rekord) {
+                                localStorage.setItem('punkty', punkty);
+                                rekord = localStorage.getItem('punkty');
+                                document.getElementById("koniec gry").innerHTML = "New Best<br><br><button id='guzik' onclick='location.reload();'>New game</button>";
+
+                            }
+                            
+                            document.getElementById("rekordliczba").innerHTML = rekord;
+                            setTimeout(function() {
+                                
+                                document.addEventListener("keydown", function(event) {
+                                location.reload();
+
+                            });
+                            }, 700);
+
+
+                            
+                        }
+                        if(w<(10*skala)){z *= -1}
+                        if (w>(belkaY-(10*skala)) && x>(belkaX-(40*skala)) && x<(belkaX+(40*skala)) && z>0){
+                            z*=-1;
+                            punkty++;
+                            document.getElementById("punkty").innerHTML = punkty;
+                            
+                        }
+                        
+                        ctx.beginPath();
+                        ctx.arc(x,w,(10*skala),0,2*Math.PI);
+                        ctx.rect(belkaX-(40*skala), belkaY-(5*skala), (80*skala), (10*skala));
+                        
+                        ctx.fillStyle = "black";
+                        ctx.fill();
+                        
+                        
+                        
+                    }
+                   
+                    
+                    setInterval(function(){
+
+                        ctx.clearRect(0,0,2000,2000);
+                        if (porazka==0){
+                        szczalki();
+                        kolko(x,w);
+                        }
+                        x=x+y;   
+                        w=w+z;
+                    }
+                    ,0);
+
+        </script>
+    </body>
+</html>
