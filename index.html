@@ -64,7 +64,7 @@
 
         <form id="skalowanie">
             <label for="skala"style="">Game screen size<br></label>
-            <input  type="range" id="Skala" style="color:black;" name="Skala" min="5" max="30"><br>
+            <input  type="range" id="Skala" style="color:black;"value="1" name="Skala" min="5" max="30"><br>
             <input id="guzik" style="font-size: 19px;" type="submit" onclick="skalaf();" value="Submit">
         </form>
         <div id="wyniki">
@@ -82,10 +82,11 @@
         </center>
 
         <script>    
-                    
+                    if(localStorage.getItem('skala') == null){localStorage.setItem('skala', 1);}
                     var skala = (localStorage.getItem('skala')*0.1);
-                    if(skala == null){skala=10;}
+                    if(skala == null){skala=1;}
                     document.getElementById("Skala").value = skala*10;
+                    
                     var porazka=0;
                     var punkty=0;                    
                     var y = ((1.8 - (0.8*Math.random()))*skala);
