@@ -5,6 +5,15 @@
         </title>
         <link rel="icon" href="grin.ico" type="image/gif" sizes="256x256">
         <meta>
+            <!-- Global site tag (gtag.js) - Google Analytics -->
+            <script async src="https://www.googletagmanager.com/gtag/js?id=G-8JWZ0T6HQN"></script>
+            <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-8JWZ0T6HQN');
+            </script>
         <style>
             /*
             #rekord{
@@ -72,7 +81,7 @@
             <a id="rekord" style="font-size: 30px"></a><br>
         </div>
         <center>
-            <a style="font-size: 40px"onclick="window.open('https://github.com/Rafau33/BlackPong')">BlackPong</a><br><br>
+            <h1 style="font-size: 40px"onclick="window.open('https://github.com/Rafau33/BlackPong')">BlackPong</h1><br><br>
 
             <canvas id="ponk" width="400" height="300" style="border-style:solid;border-radius: 10px;"></canvas><br><br>
             
@@ -82,15 +91,14 @@
         </center>
 
         <script>    
-                    if(localStorage.getItem('skala') == null){localStorage.setItem('skala', 1);}
+                    if(localStorage.getItem('skala') == null){localStorage.setItem('skala', 10);}
                     var skala = (localStorage.getItem('skala')*0.1);
                     if(skala == null){skala=1;}
                     document.getElementById("Skala").value = skala*10;
-                    
+
                     var porazka=0;
                     var punkty=0;                    
                     var y = ((1.8 - (0.8*Math.random()))*skala);
-                    
                     var x=((220*skala) - Math.floor(Math.random() * (100*skala) ));
                     var z= ((1.7 - (0.7*Math.random()))*skala) ;
                     var w= ((40*skala) -Math.floor(Math.random() * (10*skala) ));
