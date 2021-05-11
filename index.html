@@ -49,12 +49,22 @@
             }
             #skalowanie{
                 position: fixed;
-                top: 10;
+                top: 110;
+                left: 10;
+                border-style:solid;
+                border-radius: 10px;
+                text-align:center;
+            }
+            /*
+            #speed{
+                position: fixed;
+                top: 130;
                 right: 10;
                 border-style:solid;
                 border-radius: 10px;
                 text-align:center;
             }
+            */
             #wyniki{
                 position: fixed;
                 top: 10;
@@ -73,8 +83,12 @@
 
         <form id="skalowanie">
             <label for="skala"style="">Game screen size<br></label>
-            <input  type="range" id="Skala" style="color:black;"value="1" name="Skala" min="5" max="30"><br>
-            <input id="guzik" style="font-size: 19px;" type="submit" onclick="skalaf();" value="Submit">
+            <input  type="range" id="skalainput" style="color:black;"value="1" name="skalainput" min="5" max="30"><br>
+            
+            <label for="speed"style="">Game speed<br></label>
+            <input  type="range" id="speedinput" style="color:black;"value="1" name="Speed" min="5" max="20"><br>
+            
+            <input id="guzik" style="font-size: 19px;" type="submit" onclick="zmienne();" value="Submit">
         </form>
         <div id="wyniki">
             <a style="font-size: 30px">Score:<a id="punkty" style="font-size: 30px">0</a></a><br>
@@ -85,7 +99,7 @@
 
             <canvas id="ponk" width="400" height="300" style="border-style:solid;border-radius: 10px;"></canvas><br><br>
             
-            <a id="koniec gry" style="font-size: 30px"></a><br><br>
+            <a id="koniec gry" style="font-size: 30px"><br><button id='guzik' onclick='porazka=0;'>New game</button></a><br><br>
             
             
         </center>
@@ -94,13 +108,20 @@
                     if(localStorage.getItem('skala') == null){localStorage.setItem('skala', 10);}
                     var skala = (localStorage.getItem('skala')*0.1);
                     if(skala == null){skala=1;}
-                    document.getElementById("Skala").value = skala*10;
+                    
+                    
+                    if(localStorage.getItem('speed') == null){localStorage.setItem('speed', 10);}
+                    var speed = (localStorage.getItem('speed')*0.1);
+                    
+                    document.getElementById("speedinput").value = speed*10;
+                    
+                    document.getElementById("skalainput").value = (skala*10);
 
-                    var porazka=0;
+                    var porazka=1;
                     var punkty=0;                    
-                    var y = ((1.8 - (0.8*Math.random()))*skala);
+                    var y = ((1.8 - (0.8*Math.random()))*skala*speed);
                     var x=((220*skala) - Math.floor(Math.random() * (100*skala) ));
-                    var z= ((1.7 - (0.7*Math.random()))*skala) ;
+                    var z= ((1.7 - (0.7*Math.random()))*skala*speed) ;
                     var w= ((40*skala) -Math.floor(Math.random() * (10*skala) ));
                     var belkaX = 200*skala;
                     var belkaY = 280*skala;
@@ -117,9 +138,15 @@
                     c.height = 300*skala;
                     document.getElementById("rekord").innerHTML = "Best Score:<a id='rekordliczba'></a>";
                     document.getElementById("rekordliczba").innerHTML = rekord;
-                    //----------------------------------------------------------------
+                    //----------------------------------------------------------------            
+                        
+                                
+
+
+                     function klawisze()  {
                     document.addEventListener("keydown", function(event) {
-                    
+                        
+                        porazka = 0;
                         
                         if (event.which === 39) {
                             
@@ -149,36 +176,50 @@
                         
                         szczalkaL = 0;
                     }
+                }
 
                     
-                });
+                );
+            }
+                setTimeout(klawisze , 400)
                     //----------------------------------------------------------------
                     function szczalki(){
                         if(szczalkaP == 1){
                             if(belkaX<(360*skala)) {
-                                    belkaX=belkaX+(1.5*skala);
+                                    belkaX=belkaX+(1.5*skala*speed);
                             }
                         }
                         if(szczalkaL == 1){
                             if(belkaX>(40*skala)) {
-                                    belkaX=belkaX-(1.5*skala);
+                                    belkaX=belkaX-(1.5*skala*speed);
                             }
                         }
                     }
-                
+                    /*
                     function skalaf(){
                         var scal = document.getElementById("Skala").value;
                         localStorage.setItem('skala', scal);
                         location.reload();
                     }
-                    
+                    */
+                    //<input id="guzik" style="font-size: 19px;" type="submit" onclick="skalaf();" value="Submit"><br>
+
+                    function zmienne(){
+                        var spee = document.getElementById("speedinput").value;
+                        localStorage.setItem('speed', spee);
+                        
+                        var scal = document.getElementById("skalainput").value;
+                        localStorage.setItem('skala', scal);
+
+                        location.reload();
+                    }
 
                     function kolko(x,w) {
                         if(x > (390*skala)){y *= -1}
                         if(x < (10*skala)){y *= -1}
                         if(w > (290*skala)){
                             
-                            document.getElementById("koniec gry").innerHTML = "You lose<br><br><button id='guzik' onclick='location.reload();'>New game</button>";
+                            //document.getElementById("koniec gry").innerHTML = "<br><button id='guzik' onclick='location.reload();'>New game</button>";
                             porazka=1;
 /*
                             if(punkty>rekord*0.7) {
@@ -189,18 +230,13 @@
                             if(punkty>rekord) {
                                 localStorage.setItem('punkty', punkty);
                                 rekord = localStorage.getItem('punkty');
-                                document.getElementById("koniec gry").innerHTML = "New Best<br><br><button id='guzik' onclick='location.reload();'>New game</button>";
+                                //document.getElementById("koniec gry").innerHTML = "New Best<br><br><button id='guzik' onclick='location.reload();'>New game</button>";
 
                             }
                             
                             document.getElementById("rekordliczba").innerHTML = rekord;
-                            setTimeout(function() {
-                                
-                                document.addEventListener("keydown", function(event) {
-                                location.reload();
+                            location.reload();
 
-                            });
-                            }, 700);
 
 
                             
@@ -231,9 +267,10 @@
                         if (porazka==0){
                         szczalki();
                         kolko(x,w);
-                        }
+                        
                         x=x+y;   
                         w=w+z;
+                        }
                     }
                     ,0);
 
