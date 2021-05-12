@@ -88,6 +88,9 @@
             <label for="speed"style="">Game speed<br></label>
             <input  type="range" id="speedinput" style="color:black;"value="1" name="Speed" min="5" max="20"><br>
             
+            <label for="psize"style="">Pad size<br></label>
+            <input  type="range" id="psize" style="color:black;"value="1" name="psize" min="5" max="20"><br>
+
             <input id="guzik" style="font-size: 19px;" type="submit" onclick="zmienne();" value="Submit">
         </form>
         <div id="wyniki">
@@ -112,11 +115,15 @@
                     
                     if(localStorage.getItem('speed') == null){localStorage.setItem('speed', 10);}
                     var speed = (localStorage.getItem('speed')*0.1);
-                    
-                    document.getElementById("speedinput").value = speed*10;
-                    
-                    document.getElementById("skalainput").value = (skala*10);
 
+                    if(localStorage.getItem('psize') == null){localStorage.setItem('psize', 10);}
+                    var psize = (localStorage.getItem('psize')*0.1);
+                    if(skala == null){psize=1;}
+
+                    document.getElementById("skalainput").value = skala*10;
+                    document.getElementById("speedinput").value = speed*10;
+                    document.getElementById("psize").value = psize*10;
+                    
                     var porazka=1;
                     var punkty=0;                    
                     var y = ((1.8 - (0.8*Math.random()))*skala*speed);
@@ -185,24 +192,16 @@
                     //----------------------------------------------------------------
                     function szczalki(){
                         if(szczalkaP == 1){
-                            if(belkaX<(360*skala)) {
+                            if(belkaX<((400-(40*psize))*skala)) {
                                     belkaX=belkaX+(1.5*skala*speed);
                             }
                         }
                         if(szczalkaL == 1){
-                            if(belkaX>(40*skala)) {
+                            if(belkaX>(40*skala*psize)) {
                                     belkaX=belkaX-(1.5*skala*speed);
                             }
                         }
                     }
-                    /*
-                    function skalaf(){
-                        var scal = document.getElementById("Skala").value;
-                        localStorage.setItem('skala', scal);
-                        location.reload();
-                    }
-                    */
-                    //<input id="guzik" style="font-size: 19px;" type="submit" onclick="skalaf();" value="Submit"><br>
 
                     function zmienne(){
                         var spee = document.getElementById("speedinput").value;
@@ -210,6 +209,9 @@
                         
                         var scal = document.getElementById("skalainput").value;
                         localStorage.setItem('skala', scal);
+
+                        var psiz = document.getElementById("psize").value;
+                        localStorage.setItem('psize', psiz);
 
                         location.reload();
                     }
@@ -219,18 +221,13 @@
                         if(x < (10*skala)){y *= -1}
                         if(w > (290*skala)){
                             
-                            //document.getElementById("koniec gry").innerHTML = "<br><button id='guzik' onclick='location.reload();'>New game</button>";
+                            
                             porazka=1;
-/*
-                            if(punkty>rekord*0.7) {
-                                document.getElementById("koniec gry").innerHTML = "Almost record<br><br><button id='guzik' onclick='location.reload();'>New game</button>";
-
-                            }
-*/                            
+                        
                             if(punkty>rekord) {
                                 localStorage.setItem('punkty', punkty);
                                 rekord = localStorage.getItem('punkty');
-                                //document.getElementById("koniec gry").innerHTML = "New Best<br><br><button id='guzik' onclick='location.reload();'>New game</button>";
+                               
 
                             }
                             
@@ -242,7 +239,7 @@
                             
                         }
                         if(w<(10*skala)){z *= -1}
-                        if (w>(belkaY-(10*skala)) && x>(belkaX-(40*skala)) && x<(belkaX+(40*skala)) && z>0){
+                        if (w>(belkaY-(10*skala)) && x>(belkaX-(40*skala*psize)) && x<(belkaX+(40*skala*psize)) && z>0){
                             z*=-1;
                             punkty++;
                             document.getElementById("punkty").innerHTML = punkty;
@@ -251,7 +248,7 @@
                         
                         ctx.beginPath();
                         ctx.arc(x,w,(10*skala),0,2*Math.PI);
-                        ctx.rect(belkaX-(40*skala), belkaY-(5*skala), (80*skala), (10*skala));
+                        ctx.rect(belkaX-(40*skala*psize), belkaY-(5*skala), (80*skala*psize), (10*skala));
                         
                         ctx.fillStyle = "black";
                         ctx.fill();
@@ -266,11 +263,12 @@
                         ctx.clearRect(0,0,2000,2000);
                         if (porazka==0){
                         szczalki();
-                        kolko(x,w);
                         
+                        kolko(x,w);
                         x=x+y;   
                         w=w+z;
                         }
+                        
                     }
                     ,0);
 
