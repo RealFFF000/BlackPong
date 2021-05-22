@@ -1,3 +1,4 @@
+
 <html>
     <head>
         <title>
@@ -20,8 +21,24 @@
                 
                 position:fixed;
             }*/
+            #Skala,#guzik,#skalowanie,#wyniki,canvas,h1{
+                    visibility: visible;
+                }
+                #smartfon{
+                    visibility: hidden;
+                }
+
+            @media (max-device-width:1200px) {
+                #Skala,#guzik,#skalowanie,#wyniki,canvas,h1{
+                    visibility: hidden;
+                }
+                #smartfon{
+                    visibility: visible;
+                }
+            } 
+            
             #Skala{
-                background-color: #ddd;
+            background-color: #ddd;
             }
             #guzik{
                     
@@ -48,13 +65,23 @@
                     color: white;
             }
             #skalowanie{
+                        position: fixed;
+                        top: 110;
+                        left: 10;
+                        border-style:solid;
+                        border-radius: 10px;
+                        text-align:center;
+
+                    }
+            #smartfon{
                 position: fixed;
-                top: 110;
-                left: 10;
-                border-style:solid;
-                border-radius: 10px;
+                top: 10%;
+                width: 100%;
                 text-align:center;
+                font-size: 60px;
+
             }
+
             /*
             #speed{
                 position: fixed;
@@ -77,10 +104,12 @@
 
 
 
+
+
         </style>
     </head>
     <body>
-
+        <div id="smartfon">Sorry<br>This game is only for computers <br><br><br><br> Check out my other <a href="https://www.youtube.com/watch?v=iik25wqIuFo">game</a> for smartphones</div>
         <form id="skalowanie">
             <label for="skala"style="">Game screen size<br></label>
             <input  type="range" id="skalainput" style="color:black;"value="1" name="skalainput" min="5" max="30"><br>
