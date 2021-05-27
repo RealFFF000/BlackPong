@@ -104,7 +104,23 @@
                 text-align:center;
                 padding: 8px 8px;
             }
-
+			footer{
+				position: fixed;
+				top: 10;
+				right: 10;
+			}
+			#link{
+				padding:3px;
+				border-radius: 2px;
+				font-size:25px;
+				background-color: white;
+				color: black;
+			}
+			#link:hover{
+				background-color: black;
+				color: white;
+				transition-duration:0.4s;
+			}
 
 
 
@@ -132,7 +148,7 @@
         <center>
             <h1 style="font-size: 40px"onclick="window.open('https://github.com/Rafau33/BlackPong')">BlackPong</h1><br><br>
 
-            <canvas id="ponk" width="400" height="300" style="border-style:solid;border-radius: 10px;"></canvas><br><br>
+            <canvas id="ponk" width="400" height="300" style="border-style:solid;"></canvas><br><br>
             
             <a id="koniec gry" style="font-size: 30px"><br><button id='guzik' onclick='porazka=0;'>New game</button></a><br><br>
             
@@ -141,8 +157,9 @@
 		<br><br><br><br>
 		<center>
 		<footer>
-			<p>BlackPong by Rafau</p>
-			<p><a href="https://github.com/Rafau33/BlackPong">Github Page</a></p>
+			<p style="font-size: 19px;">Created by Rafau</p>
+			<img src="aa.png" alt="github qr code" width="200" height="200">
+			<p><a href="https://github.com/Rafau33/BlackPong"target="_blank"id="link">Github Page</a></p>
 		</footer>
 		</center>	
         <script>    
